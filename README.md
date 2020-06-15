@@ -7,6 +7,6 @@ create a quiz for javaScript knowledge
 ## Built With
 * HTML
 * CSS
-*javaScript
+* javaScript
 
-## Website
+[here is my Website](https://ryannekillian.github.io/code-quiz/)
