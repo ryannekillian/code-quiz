@@ -9,7 +9,7 @@
 <body>
     <header class = "wrapper">
             <div class = "high-score-wrapper">
-                <p>View High Scores</p>
+                <button id = "view-high-scores" class = "view-high-scores">View High Scores</button>
             </div>
             <div class = "timer-wrapper">
                 <p>Time: <span id = "timer">75</span></p>
@@ -21,17 +21,25 @@
                 <p> Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
                 <div>
                     <button id="btn" class="btn">Start Quiz</button>
+                </div>
             </div>
+            <div id = "ending-of-quiz">
+                <div id = "question"></div>
+                <div id = "response"></div>
+                 <div id = "done" class = "hide">
+                    <h2>All done!</h2>
+                    <h3 id = "score">Your final score is &nbsp;</h3>
+                    <h3 id = "enter-initials">Enter initials:
+                        <input type = "text" id = "initials"/> 
+                        <button id = "submit-btn" class = "button-style">Submit</button>
+                    </h3>
+             </div>
             </div>
-            <div id = "question"></div>
-            <div id = "response"></div>
-            <div id = "done" class = "hide">
-                <h2>All done!</h2>
-                <h3 id = "score">Your final score is &nbsp;</h3>
-                <h3 id = "enter-initials">Enter initials:
-                    <input type = "text" id = "initials"/> 
-                    <button id = "submit-btn" class = "button-style">Submit</button>
-                </h3>
+            <div id = "high-scores" class = "hide">
+                <h1>High Scores</h1>
+                <div id = "ranking"></div>
+                <button id = "go-back" class = "go-back">Go Back</button>
+                <button id = "clear-high-scores" class = "clear-high-scores">Clear High Scores</button>
             </div>
         </div>
         

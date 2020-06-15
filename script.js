@@ -1,23 +1,39 @@
 var button = document.getElementById("btn");
 var submitButton = document.getElementById("submit-btn");
 var counter = 0;
-var highScore = []
-var finalTime;
+var finalTime = 0;
+var viewHighScores = document.getElementById("view-high-scores");
+var goBack = document.getElementById("go-back")
+var clearHighScores = document.getElementById("clear-high-scores")
 
-let time = 75;
+
+button.addEventListener("click", startQuiz);
+submitButton.addEventListener("click", submit);
+viewHighScores.addEventListener("click", viewScores);
+goBack.addEventListener("click", backButton);
+clearHighScores.addEventListener("click", clear);
+
+
+let time = 10;
 function setTimer() {
 var timer = setInterval(function(){
  time--;
- console.log(timer); 
  document.getElementById("timer").textContent = time
  if(time < 1){
+     console.log("here")
      clearInterval(timer)
+     document.getElementById("done").classList.add("show-block")
+     document.getElementById("done").classList.remove("hide")
+     document.getElementById("question").classList.add("hide")
+     document.getElementById("question").classList.remove("show-flex")
+     document.getElementById("response").classList.add("hide")
+     document.getElementById("response").classList.remove("show-flex")
+     document.getElementById("score").innerText += finalTime;
  }
  }, 1000)
 }
 
  function startQuiz () {
-    console.log("click")
     setTimer()
     document.getElementById("intro").classList.add("hide")
     displayQuestion()
@@ -42,7 +58,6 @@ function displayChoices (choices) {
     }
 }
 function selectedAnswer(e) {
-console.log(e.target.innerText)
 var correctAnswer = questions[counter].answer 
 var isCorrect = "Correct!" 
     if (correctAnswer !== e.target.innerText) {
@@ -55,7 +70,7 @@ var isCorrect = "Correct!"
         displayQuestion()
     }
     else {
-        document.getElementById("done").classList.add("show");
+        document.getElementById("done").classList.add("show-block");
         document.getElementById("done").classList.remove("hide");
         document.getElementById("question").classList.add("hide");
         document.getElementById("response").classList.add("hide");
@@ -66,15 +81,62 @@ var isCorrect = "Correct!"
 
 function submit() {
     document.getElementById("initials").value;
-    highScore.push (
-        document.getElementById("initials").value + " - " + finalTime
+    var scores = JSON.parse(localStorage.getItem("highScore"))
+     if (!scores) {
+         scores = []
+     }
+    scores.push ( {
+        initials:document.getElementById("initials").value,  
+        score: finalTime
+    }   
     ) 
-    localStorage.setItem("highScore", highScore)
+    scores.sort((i, j) => j.score - i.score)
+    localStorage.setItem("highScore", JSON.stringify(scores))
+    document.getElementById("ending-of-quiz").classList.add("hide")
+    ranking ()
 }
 
-console.log(button);
- button.addEventListener("click", startQuiz);
- submitButton.addEventListener("click", submit);
+function ranking() {
+    document.getElementById("ranking").classList.add("show-block")
+    document.getElementById("high-scores").classList.add("show-block")
+    var scores = JSON.parse(localStorage.getItem("highScore"))
+    var place = 1
+    var container = document.createElement("div")
+    if (!scores) {
+        scores = []
+    }
+    for (i = 0; i < scores.length; i++) {
+        var rank = document.createElement("div") 
+        rank.innerText = "" + place + ". " + scores[i].initials + " - " + scores[i].score
+        container.appendChild(rank)
+        place++ 
+    }
+    container.setAttribute("id", "topScores")
+    document.getElementById("ranking").appendChild(container);
+}
+function viewScores() {
+    document.getElementById("intro").classList.add("hide")
+    document.getElementById("intro").classList.remove("show-flex")
+    ranking ()
+} 
+
+function clear() {
+    localStorage.removeItem("highScore")
+    backButton()
+}
+
+function backButton() {
+    document.getElementById("high-scores").classList.add("hide")
+    document.getElementById("high-scores").classList.remove("show-block")
+    document.getElementById("intro").classList.add("show-flex")
+    document.getElementById("intro").classList.remove("hide")
+    document.getElementById("topScores").remove()
+  
+
+
+
+
+}
 
  var questions = [
     {
@@ -82,7 +144,6 @@ console.log(button);
     choices: ["1. Numbers and strings", "2. Other arrays", "3. Booleans", "4. All of them"],
     answer: "1. Numbers and strings"
      },
-
     {
     question: "String values must be enclosed within ________ when being assigned to variables.",
     choices: ["1. Commas", "2. Curly brackets", "3. Quotes", "4. Parenthesis"],
@@ -104,57 +165,6 @@ console.log(button);
     answer: "3. Parenthesis"
     },
  ]
-
-//function to create game over view
-function gameOverView() {
-    pageContentEl.innerHTML = "";
-
-    var gameOverEl = document.createElement("div");
-    gameOverEl.className = "game-over";
-    gameOverEl.id = "game-over";
-
-    var gameOverTextEl = document.createElement9("h2");
-    gameOverTextEl.innerText = "All Done!"
-    gameOverEl.appendChild(gameOverTextEl);
-
-    var scoreMsgEl = document.createElement('h3');
-    scoreMsgEl.innerHTML = "Your final score is ";
-
-    var scoreEl = document.createElement('span');
-    scoreEl.id = "player-score";
-
-    if (counter >=0) {
-        scoreEl.innerText = counter + ".";
-
-    }
-    else 
-    scoreEl.innerText = 0 + ".";
-}
-scoreMsgEl.appendChild(scoreEl);
-gameOverEl.appendChild(scoreMsgEl);
-
-
-
- // clear high scores
-function handleClearScores() {
-     scoreArr = [];
-     saveScores();
-     highScoresPage();
- }
-
-function saveScores() {
-     //sort high scores low to high
-     scoreArr.sort((a, b) => b.score - a.score);
-     localStorage.setItem('stats', JSON.stringify(scoreArr));
- }
-//load high scores from storage
-function loadScores() {
-    var stats = localStorage.getItem('stats')
-    if (!stats) {
-        return false;
-    }
-    return (stats = JSON.parse(stats));
-}
 
   
 
