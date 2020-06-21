@@ -14,7 +14,7 @@ goBack.addEventListener("click", backButton);
 clearHighScores.addEventListener("click", clear);
 
 
-let time = 10;
+let time = 75;
 function setTimer() {
 var timer = setInterval(function(){
  time--;
@@ -142,12 +142,12 @@ function backButton() {
     {
     question: "Arrays in JavaScript can be used to store",
     choices: ["1. Numbers and strings", "2. Other arrays", "3. Booleans", "4. All of them"],
-    answer: "1. Numbers and strings"
+    answer: "4. All of them"
      },
     {
     question: "String values must be enclosed within ________ when being assigned to variables.",
     choices: ["1. Commas", "2. Curly brackets", "3. Quotes", "4. Parenthesis"],
-    answer: "4. Parenthesis"
+    answer: "3. Quotes"
     },
     {
     question: "A very useful took used during development and debugging for printing content to the debugger is:",
